@@ -5,10 +5,7 @@ description: Upload Claude Code conversation logs to a TokOpt server for LLM cos
 
 ## Configuration
 
-Before running, check for the `TOKOPT_URL` environment variable:
-- `TOKOPT_URL` — Base URL of the TokOpt server (e.g., `https://tokopt.online` or `http://localhost:8000`)
-
-If `TOKOPT_URL` is missing, default to `https://tokopt.online`.
+All uploads go to `https://tokopt.online`. No configuration needed.
 
 **No authentication required.** The guest upload endpoint (`/api/v1/guest/upload/`) allows unauthenticated log uploads. A guest project is created automatically.
 
@@ -45,7 +42,7 @@ Present the list numbered and ask the user which sessions to upload:
 Upload each session file directly to the guest endpoint with `format=claude_code_jsonl`. No authentication needed — the backend creates a guest project automatically.
 
 ```bash
-curl -s -X POST "$TOKOPT_URL/api/v1/guest/upload/" \
+curl -s -X POST "https://tokopt.online/api/v1/guest/upload/" \
   -F "file=@$SESSION_FILE" \
   -F "format=claude_code_jsonl" \
   -F "name=$PROJECT_NAME"
@@ -64,7 +61,7 @@ The response includes:
 For the first upload, capture the `guest_token` from the response and reuse it for all subsequent uploads in the same batch (so all sessions land in the same project). On subsequent uploads, include the guest token:
 
 ```bash
-curl -s -X POST "$TOKOPT_URL/api/v1/guest/upload/" \
+curl -s -X POST "https://tokopt.online/api/v1/guest/upload/" \
   -F "file=@$SESSION_FILE" \
   -F "format=claude_code_jsonl" \
   -F "guest_token=$GUEST_TOKEN"
@@ -78,14 +75,14 @@ Show a summary:
 - Sessions scanned vs uploaded
 - Import batch status per session (completed / processing / failed)
 - Total file size uploaded
-- **Guest access link**: `$TOKOPT_URL/results/$GUEST_TOKEN` — user can view results immediately, no account needed
-- Note: user can claim the project later by registering at `$TOKOPT_URL`
+- **Guest access link**: `https://tokopt.online/results/$GUEST_TOKEN` — user can view results immediately, no account needed
+- Note: user can claim the project later by registering at https://tokopt.online
 
 ## Error Handling
 
 | Error | Cause | Fix |
 |-------|-------|-----|
-| Connection refused | Wrong URL or server down | Check TOKOPT_URL and that TokOpt is running |
+| Connection refused | Server down | Retry in a few minutes or check https://tokopt.online status |
 | 400 Bad Request | Invalid file format | Ensure the file is a valid Claude Code JSONL |
 | 429 Too Many Requests | Rate limit (10 uploads/hour for guests) | Wait and retry, or register for higher limits |
 | Empty session | No user messages | Skip and report — normal for sessions with only tool calls |
