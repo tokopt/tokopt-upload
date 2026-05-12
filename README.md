@@ -17,6 +17,14 @@ cd tokopt-upload
 bash tokopt-upload.sh
 ```
 
+## As a Claude Code Skill
+
+```bash
+claude skill add --repo git@github.com:tokopt/tokopt-upload.git
+```
+
+Then use `/tokopt-upload` in any Claude Code session. Optionally pass a project name: `/tokopt-upload my-project`.
+
 ## What It Does
 
 1. Discovers all Claude Code session files in `~/.claude/projects/`
