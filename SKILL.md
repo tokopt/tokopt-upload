@@ -5,26 +5,26 @@ description: Upload Claude Code conversation logs to a TokOpt server for LLM cos
 
 ## Quick Start
 
-The standalone script at `tokopt-upload.sh` handles everything — session discovery, upload, and dashboard link display.
+The script at `scripts/tokopt-upload.sh` handles everything — session discovery, upload, and dashboard link display.
 
 ```bash
 # Upload all sessions (including subagents)
-bash tokopt-upload.sh
+bash scripts/tokopt-upload.sh
 
 # Preview what would be uploaded
-bash tokopt-upload.sh --dry-run
+bash scripts/tokopt-upload.sh --dry-run
 
 # Exclude subagent sessions
-bash tokopt-upload.sh --no-subagents
+bash scripts/tokopt-upload.sh --no-subagents
 
 # Add to existing project
-bash tokopt-upload.sh --token <guest-token>
+bash scripts/tokopt-upload.sh --token <guest-token>
 
 # Pass project name from skill arguments
-bash tokopt-upload.sh --project "$ARGUMENTS"
+bash scripts/tokopt-upload.sh --project "$ARGUMENTS"
 ```
 
-The script can also be run directly via curl:
+The script can also be run directly via curl (no installation needed):
 ```bash
 curl -fsSL https://tokopt.online/scripts/tokopt-upload.sh | bash
 ```

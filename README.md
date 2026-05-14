@@ -14,16 +14,45 @@ Or clone and run:
 ```bash
 git clone https://github.com/tokopt/tokopt-upload.git
 cd tokopt-upload
-bash tokopt-upload.sh
+bash scripts/tokopt-upload.sh
 ```
 
 ## As a Claude Code Skill
 
+Skills are installed by cloning into the skills directory — no special CLI command needed.
+
+### Personal skill (available in all your projects)
+
 ```bash
-claude skill add --repo git@github.com:tokopt/tokopt-upload.git
+mkdir -p ~/.claude/skills
+git clone https://github.com/tokopt/tokopt-upload.git ~/.claude/skills/tokopt-upload
 ```
 
-Then use `/tokopt-upload` in any Claude Code session. Optionally pass a project name: `/tokopt-upload my-project`.
+### Project skill (shared with your team via git)
+
+```bash
+# Option A: Clone directly into the project
+mkdir -p .claude/skills
+git clone https://github.com/tokopt/tokopt-upload.git .claude/skills/tokopt-upload
+
+# Option B: Add as a git submodule
+git submodule add https://github.com/tokopt/tokopt-upload.git .claude/skills/tokopt-upload
+```
+
+Team members get the skill automatically when they `git pull`.
+
+After installation, use `/tokopt-upload` in any Claude Code session. Optionally pass a project name: `/tokopt-upload my-project`.
+
+## Directory Structure
+
+```
+tokopt-upload/
+├── SKILL.md              # Skill definition (instructions for Claude)
+├── README.md             # This file
+├── scripts/
+│   └── tokopt-upload.sh  # Upload script
+└── LICENSE
+```
 
 ## What It Does
 
@@ -49,16 +78,16 @@ Your data stays local until you run the script. Nothing is sent without your act
 
 ```bash
 # Preview what would be uploaded
-bash tokopt-upload.sh --dry-run
+bash scripts/tokopt-upload.sh --dry-run
 
 # Skip subagent conversations
-bash tokopt-upload.sh --no-subagents
+bash scripts/tokopt-upload.sh --no-subagents
 
 # Add to an existing project
-bash tokopt-upload.sh --token abc-123-def
+bash scripts/tokopt-upload.sh --token abc-123-def
 
 # Use a custom server
-bash tokopt-upload.sh --server https://my-tokopt.example.com
+bash scripts/tokopt-upload.sh --server https://my-tokopt.example.com
 ```
 
 ## Requirements
